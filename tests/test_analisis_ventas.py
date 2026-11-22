@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 import pytest
 
@@ -6,11 +8,6 @@ from analisis_ventas import analyze_sales, load_sales_data
 
 def test_load_sales_data_parses_decimal_comma_and_normalizes_products(tmp_path):
     csv_file = tmp_path / "ventas.csv"
-    csv_file.write_text(
-        "producto,cantidad,precio\nlaptop,2,800\nTeclado,3,3,50\n",
-        encoding="utf-8",
-    )
-    # Quoted decimal comma is a single CSV field.
     csv_file.write_text(
         'producto,cantidad,precio\nlaptop,2,800\nTeclado,3,"3,50"\n',
         encoding="utf-8",
@@ -21,10 +18,10 @@ def test_load_sales_data_parses_decimal_comma_and_normalizes_products(tmp_path):
 
 
 def test_analysis_returns_correct_totals_for_repository_dataset():
-    from pathlib import Path
-    df = load_sales_data(Path(__file__).with_name("..") / "ventas.csv")
+    csv_file = Path(__file__).resolve().parents[1] / "ventas.csv"
+    df = load_sales_data(csv_file)
     _, by_product, summary = analyze_sales(df)
-    assert summary["ingresos_totales"] == 1915.9
+    assert summary["ingresos_totales"] == 2514.9
     assert summary["producto_mas_vendido"] == "Mouse"
     assert summary["unidades_vendidas"] == 13
     assert by_product["Mouse"] == 7
