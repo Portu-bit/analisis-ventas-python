@@ -4,7 +4,7 @@ Proyecto de análisis exploratorio de datos con Python, Pandas y Matplotlib. Lee
 
 ## Resultados del conjunto de datos incluido
 
-- Ingresos totales: **1915.90**
+- Ingresos totales: **2514.90**
 - Producto más vendido: **Mouse** (7 unidades)
 - Unidades vendidas: **13**
 
